@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Libre Baskerville", serif;
+  --font-sans: "Montserrat", sans-serif;
+  
+  --color-primary: #5A5A40; /* Earthy Olive */
+  --color-secondary: #F5F2ED; /* Warm Bone/Tan */
+  --color-accent: #8C7851; /* Muted Gold/Oak */
+  --color-surface: #FDFBF7; /* Lighter Cream */
+  --color-border-tan: #D6C9B0;
+  --color-text-dark: #000000;
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-secondary text-black antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+
+  /* Force all text to be solid black across the storefront */
+  p, span, label, a, button, h1, h2, h3, h4, h5, h6, td, th, li, div {
+    color: inherit;
+  }
+
+  .card-shadow {
+    box-shadow: 0 10px 30px -10px rgba(90, 90, 64, 0.15);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, #f0ede8 25%, #e8e4dd 50%, #f0ede8 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

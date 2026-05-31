@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Products: Anyone can read, only Admins could write (omitted for now as no admin panel requested)
+    match /products/{productId} {
+      allow read: if true;
+    }
+
+    // Reviews: Anyone can read, signed-in users can create
+    match /products/{productId}/reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.productId == productId
+        && request.resource.data.rating >= 1 && request.resource.data.rating <= 5;
+      allow delete: if isOwner(resource.data.userId);
+    }
+
+    // Wishlists: Private to user
+    match /wishlists/{userId}/items/{itemId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Orders: Private to owner (or guest if we tracked by email/session, but here using UID)
+    // For guest orders, we might need more flexible rules or a different collection.
+    // Given the constraints, we'll allow guests to create but not read for now (secure).
+    match /orders/{orderId} {
+      allow create: if true; // Allow guest/user creation
+      allow read, update: if isSignedIn() && (resource.data.userId == request.auth.uid || resource.data.customerEmail == request.auth.token.email);
+    }
+  }
+}

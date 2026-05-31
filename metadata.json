@@ -1,0 +1,6 @@
+{
+  "name": "Zarevielle",
+  "description": "A refined luxury ecommerce experience for handcrafted leather goods, featuring a natural, earthy aesthetic and secure checkout.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

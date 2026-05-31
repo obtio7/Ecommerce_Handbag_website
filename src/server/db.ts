@@ -1,0 +1,25 @@
+import mongoose from 'mongoose';
+import dns from 'dns';
+
+// Force Node.js to prefer IPv4 for DNS resolution (fixes SRV lookup issues on some networks)
+dns.setDefaultResultOrder('ipv4first');
+
+export async function connectDB(): Promise<void> {
+  const uri = process.env.MONGODB_URI;
+
+  if (!uri) {
+    console.error('MONGODB_URI environment variable is not set');
+    process.exit(1);
+  }
+
+  try {
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 45000,
+    });
+    console.log('Connected to MongoDB');
+  } catch (error) {
+    console.error('Failed to connect to MongoDB:', error);
+    process.exit(1);
+  }
+}

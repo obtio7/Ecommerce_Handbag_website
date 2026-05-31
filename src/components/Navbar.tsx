@@ -309,7 +309,7 @@ const Navbar: React.FC = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed inset-0 bg-[#F5F3EF] z-[101] flex flex-col overflow-hidden"
+              className="fixed inset-0 bg-white z-[101] flex flex-col overflow-hidden"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-5 bg-[#3D3D29]">
@@ -320,53 +320,44 @@ const Navbar: React.FC = () => {
               </div>
 
               {/* Scrollable Content */}
-              <div className="flex-1 overflow-y-auto">
+              <div className="flex-1 overflow-y-auto bg-[#F5F3EF]">
                 {/* Main Navigation */}
                 <div className="px-6 py-6">
                   <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Menu</p>
-                  <div className="space-y-1">
+                  <div className="space-y-1 bg-white rounded-2xl p-4 shadow-sm">
                     <Link 
                       to="/" 
                       onClick={closeMobileMenu} 
-                      className="block py-4 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
+                      className="block py-3 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
                     >
                       Home
                     </Link>
                     <Link 
                       to="/collection" 
                       onClick={closeMobileMenu} 
-                      className="block py-4 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
+                      className="block py-3 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
                     >
                       All Collection
                     </Link>
                     <Link 
                       to="/about" 
                       onClick={closeMobileMenu} 
-                      className="block py-4 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
+                      className="block py-3 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
                     >
                       About Us
                     </Link>
                     <Link 
                       to="/contact" 
                       onClick={closeMobileMenu} 
-                      className="block py-4 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
+                      className="block py-3 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors"
                     >
                       Contact
                     </Link>
-                    {user && (
-                      <Link 
-                        to="/orders" 
-                        onClick={closeMobileMenu} 
-                        className="block py-4 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
-                      >
-                        My Orders
-                      </Link>
-                    )}
                   </div>
                 </div>
 
                 {/* Shop by Category */}
-                <div className="px-6 py-6 bg-white/50">
+                <div className="px-6 py-4">
                   <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Shop by Category</p>
                   <div className="grid grid-cols-2 gap-3">
                     {[
@@ -392,13 +383,13 @@ const Navbar: React.FC = () => {
                 </div>
 
                 {/* Quick Links */}
-                <div className="px-6 py-6">
+                <div className="px-6 py-4">
                   <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Quick Links</p>
-                  <div className="space-y-1">
+                  <div className="bg-white rounded-2xl p-4 shadow-sm space-y-1">
                     <Link 
                       to="/wishlist" 
                       onClick={closeMobileMenu} 
-                      className="flex items-center justify-between py-4 text-[#3D3D29] border-b border-[#3D3D29]/10"
+                      className="flex items-center justify-between py-3 text-[#3D3D29] border-b border-[#3D3D29]/10"
                     >
                       <div className="flex items-center gap-3">
                         <Heart size={20} strokeWidth={1.5} />
@@ -413,7 +404,7 @@ const Navbar: React.FC = () => {
                     <Link 
                       to="/cart" 
                       onClick={closeMobileMenu} 
-                      className="flex items-center justify-between py-4 text-[#3D3D29] border-b border-[#3D3D29]/10"
+                      className="flex items-center justify-between py-3 text-[#3D3D29]"
                     >
                       <div className="flex items-center gap-3">
                         <ShoppingBag size={20} strokeWidth={1.5} />
@@ -425,18 +416,6 @@ const Navbar: React.FC = () => {
                         </span>
                       )}
                     </Link>
-                    {user && (
-                      <Link 
-                        to="/account" 
-                        onClick={closeMobileMenu} 
-                        className="flex items-center justify-between py-4 text-[#3D3D29] border-b border-[#3D3D29]/10"
-                      >
-                        <div className="flex items-center gap-3">
-                          <User size={20} strokeWidth={1.5} />
-                          <span className="font-medium">My Account</span>
-                        </div>
-                      </Link>
-                    )}
                   </div>
                 </div>
               </div>

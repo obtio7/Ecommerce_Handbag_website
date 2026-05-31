@@ -3,7 +3,6 @@ import Hero from '../components/Hero';
 import ProductCard from '../components/ProductCard';
 import ProductCardSkeleton from '../components/ProductCardSkeleton';
 import NewsletterSignup from '../components/NewsletterSignup';
-import InstagramFeed from '../components/InstagramFeed';
 import { Product, mapApiProduct } from '../types';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
@@ -71,52 +70,6 @@ const Home: React.FC = () => {
         )}
       </section>
 
-      {/* Category Grid - Bento Style */}
-      <section className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 h-[900px]">
-          <div className="md:col-span-8 relative group overflow-hidden rounded-[48px] border border-border-tan/30 card-shadow bg-surface">
-            <img 
-              src="https://images.unsplash.com/photo-1590156221122-c4465ce28920?q=80&w=2576&auto=format&fit=crop" 
-              className="w-full h-full object-cover grayscale opacity-60 transition-transform duration-1000 group-hover:scale-110"
-              alt="The Carryall Edit"
-            />
-            <div className="absolute inset-x-0 bottom-0 p-16 text-primary">
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold mb-4 block">Archive 01</span>
-              <h3 className="text-6xl font-serif mb-6 tracking-tighter">The Carryall <br /><span className="italic font-light">Perspective</span></h3>
-              <Link to="/collection?category=Tote" className="text-[10px] uppercase tracking-[0.3em] font-bold inline-flex items-center gap-4 hover:gap-6 transition-all">
-                Discover the Edit <ArrowRight size={14} />
-              </Link>
-            </div>
-          </div>
-          
-          <div className="md:col-span-4 flex flex-col gap-8">
-            <div className="relative group overflow-hidden rounded-[48px] flex-1 border border-border-tan/30 shadow-sm bg-surface">
-              <img 
-                src="https://images.unsplash.com/photo-1598533023411-ca4e1d2d6afa?q=80&w=2670&auto=format&fit=crop" 
-                className="w-full h-full object-cover grayscale opacity-40 transition-transform duration-1000 group-hover:scale-110"
-                alt="Minim Clutches"
-              />
-              <div className="absolute inset-0 p-10 flex flex-col justify-end text-primary">
-                <h3 className="text-3xl font-serif mb-4 tracking-tighter italic">Minim Clutches</h3>
-                <Link to="/collection?category=Clutch" className="text-[10px] uppercase tracking-[0.3em] font-bold border-b border-primary/20 w-fit pb-1">Shop Collection</Link>
-              </div>
-            </div>
-            
-            <div className="relative group overflow-hidden rounded-[48px] flex-1 border border-border-tan/30 shadow-sm bg-surface">
-              <img 
-                src="https://images.unsplash.com/photo-1566150905458-1bf1fd111c91?q=80&w=2574&auto=format&fit=crop" 
-                className="w-full h-full object-cover grayscale opacity-40 transition-transform duration-1000 group-hover:scale-110"
-                alt="The Crossbody"
-              />
-              <div className="absolute inset-0 p-10 flex flex-col justify-end text-primary">
-                <h3 className="text-3xl font-serif mb-4 tracking-tighter">The Crossbody</h3>
-                <Link to="/collection?category=Crossbody" className="text-[10px] uppercase tracking-[0.3em] font-bold border-b border-primary/20 w-fit pb-1">Shop Collection</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Philosophy Section */}
       <section className="bg-primary text-white py-40 mx-4 rounded-[60px] overflow-hidden shadow-2xl">
         <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-32 items-center">
@@ -160,9 +113,6 @@ const Home: React.FC = () => {
       <section className="max-w-4xl mx-auto px-4">
         <NewsletterSignup variant="inline" />
       </section>
-
-      {/* Instagram Feed Section */}
-      <InstagramFeed username="zarevielle" />
     </div>
   );
 };

@@ -14,6 +14,11 @@ const router = Router();
  * Remove this endpoint in production.
  */
 router.post('/setup', async (req: Request, res: Response) => {
+  if (process.env.NODE_ENV === 'production') {
+    res.status(404).json({ error: 'Not found' });
+    return;
+  }
+
   try {
     const { username, password } = req.body;
 

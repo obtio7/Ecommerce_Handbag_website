@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Instagram, ExternalLink, Heart, MessageCircle } from 'lucide-react';
+import { Instagram, ExternalLink } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 interface InstagramPost {
@@ -17,78 +17,98 @@ interface InstagramFeedProps {
   className?: string;
 }
 
-// Placeholder posts for demo - in production, these would come from Instagram API
-const PLACEHOLDER_POSTS: InstagramPost[] = [
+// ============================================================
+// 📸 INSTAGRAM POSTS - ADD YOUR POSTS HERE
+// ============================================================
+// To add a new post:
+// 1. Copy the image URL from your Instagram post
+// 2. Copy the post link (e.g., https://www.instagram.com/p/ABC123/)
+// 3. Add a new entry below
+// ============================================================
+
+const INSTAGRAM_POSTS: InstagramPost[] = [
+  // ---------------------------------------------------------------
+  // 📸 POST 1 - Replace imageUrl and permalink with your own
+  // ---------------------------------------------------------------
   {
     id: '1',
-    imageUrl: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&h=400&fit=crop',
-    caption: 'The art of simplicity. Our new Carryall in Cognac. #Zarevielle #LeatherGoods',
-    likes: 234,
-    comments: 18,
-    permalink: '#',
+    imageUrl: 'https://www.instagram.com/p/DU_6Z4fCDss/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
+    caption: 'Not just a bag.',
+    likes: 10,
+    comments: 0,
+    permalink: 'https://instagram.com/zarevielleofficial',
   },
+  // ---------------------------------------------------------------
+  // 📸 POST 2
+  // ---------------------------------------------------------------
   {
     id: '2',
     imageUrl: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop',
-    caption: 'Behind the scenes at our London atelier. Every stitch tells a story.',
-    likes: 456,
-    comments: 32,
-    permalink: '#',
+    caption: 'Behind the scenes',
+    likes: 0,
+    comments: 0,
+    permalink: 'https://instagram.com/zarevielleofficial',
   },
+  // ---------------------------------------------------------------
+  // 📸 POST 3
+  // ---------------------------------------------------------------
   {
     id: '3',
     imageUrl: 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=400&h=400&fit=crop',
-    caption: 'Sunset hues. The Minim Clutch in Terracotta.',
-    likes: 389,
-    comments: 24,
-    permalink: '#',
+    caption: 'Sunset hues',
+    likes: 0,
+    comments: 0,
+    permalink: 'https://instagram.com/zarevielleofficial',
   },
+  // ---------------------------------------------------------------
+  // 📸 POST 4
+  // ---------------------------------------------------------------
   {
     id: '4',
     imageUrl: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=400&fit=crop',
-    caption: 'Crafted for the everyday extraordinary. #ArtisanMade',
-    likes: 567,
-    comments: 41,
-    permalink: '#',
+    caption: 'Crafted for the everyday',
+    likes: 0,
+    comments: 0,
+    permalink: 'https://instagram.com/zarevielleofficial',
   },
+  // ---------------------------------------------------------------
+  // 📸 POST 5
+  // ---------------------------------------------------------------
   {
     id: '5',
     imageUrl: 'https://images.unsplash.com/photo-1566150905458-1bf1fd111c91?w=400&h=400&fit=crop',
-    caption: 'The Crossbody Edit. Effortless elegance for every journey.',
-    likes: 298,
-    comments: 15,
-    permalink: '#',
+    caption: 'The Crossbody Edit',
+    likes: 0,
+    comments: 0,
+    permalink: 'https://instagram.com/zarevielleofficial',
   },
+  // ---------------------------------------------------------------
+  // 📸 POST 6
+  // ---------------------------------------------------------------
   {
     id: '6',
     imageUrl: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400&h=400&fit=crop',
-    caption: 'Details matter. Hand-finished edges on our signature pieces.',
-    likes: 412,
-    comments: 28,
-    permalink: '#',
+    caption: 'Details matter',
+    likes: 0,
+    comments: 0,
+    permalink: 'https://instagram.com/zarevielleofficial',
   },
 ];
 
+// Filter out empty posts (ones without imageUrl)
+const getValidPosts = () => INSTAGRAM_POSTS.filter(post => post.imageUrl.trim() !== '');
+
 const InstagramFeed: React.FC<InstagramFeedProps> = ({ 
-  username = 'zarevielle',
+  username = 'zarevielleofficial',
   className 
 }) => {
-  const [posts, setPosts] = useState<InstagramPost[]>(PLACEHOLDER_POSTS);
+  const posts = getValidPosts();
   const [hoveredPost, setHoveredPost] = useState<string | null>(null);
 
-  // In production, you would fetch from Instagram Basic Display API
-  // useEffect(() => {
-  //   const fetchInstagramPosts = async () => {
-  //     try {
-  //       const response = await fetch(`/api/instagram/feed`);
-  //       const data = await response.json();
-  //       setPosts(data.posts);
-  //     } catch (error) {
-  //       console.error('Failed to fetch Instagram posts:', error);
-  //     }
-  //   };
-  //   fetchInstagramPosts();
-  // }, []);
+  // Don't render if no posts are configured
+  if (posts.length === 0) {
+    return null;
+  }
 
   return (
     <section className={cn("py-20", className)}>
@@ -144,16 +164,8 @@ const InstagramFeed: React.FC<InstagramFeedProps> = ({
                 "absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-3 transition-opacity duration-300",
                 hoveredPost === post.id ? "opacity-100" : "opacity-0"
               )}>
-                <div className="flex items-center gap-6 text-white">
-                  <div className="flex items-center gap-2">
-                    <Heart size={18} fill="white" />
-                    <span className="text-sm font-medium">{post.likes}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MessageCircle size={18} fill="white" />
-                    <span className="text-sm font-medium">{post.comments}</span>
-                  </div>
-                </div>
+                <Instagram size={28} className="text-white" />
+                <span className="text-white text-xs font-medium">View on Instagram</span>
               </div>
 
               {/* Instagram icon indicator */}

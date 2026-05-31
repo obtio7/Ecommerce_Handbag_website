@@ -1,58 +1,98 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth, googleProvider, signInWithPopup } from '../lib/firebase';
-import { User, onAuthStateChanged, signOut } from 'firebase/auth';
+
+interface AppUser {
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL?: string;
+}
 
 interface AuthContextType {
-  user: User | null;
+  user: AppUser | null;
   loading: boolean;
-  loginWithGoogle: () => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+  const loadSession = async () => {
+    try {
+      const res = await fetch('/api/auth/session', {
+        credentials: 'include',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error('[Auth] Failed to load session:', error);
+      setUser(null);
+    } finally {
       setLoading(false);
-    });
-    return unsubscribe;
+    }
+  };
+
+  useEffect(() => {
+    loadSession();
   }, []);
 
-  const loginWithGoogle = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-    } catch (error: any) {
-      console.error('Login failed:', error);
-      // Show user-friendly error message
-      if (error.code === 'auth/popup-closed-by-user') {
-        alert('Login cancelled. Please try again.');
-      } else if (error.code === 'auth/popup-blocked') {
-        alert('Popup was blocked. Please allow popups for this site and try again.');
-      } else if (error.code === 'auth/unauthorized-domain') {
-        alert('This domain is not authorized for Google Sign-In. Please add localhost to Firebase Console > Authentication > Settings > Authorized domains.');
-      } else if (error.code === 'auth/operation-not-allowed') {
-        alert('Google Sign-In is not enabled. Please enable it in Firebase Console > Authentication > Sign-in method.');
-      } else {
-        alert(`Login failed: ${error.message || 'Unknown error'}`);
-      }
+  const login = async (email: string, password: string) => {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || 'Login failed');
     }
+
+    const data = await res.json();
+    setUser(data);
+  };
+
+  const signup = async (name: string, email: string, password: string) => {
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || 'Signup failed');
+    }
+
+    const data = await res.json();
+    setUser(data);
   };
 
   const logout = async () => {
     try {
-      await signOut(auth);
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error('[Auth] Logout failed:', error);
+    } finally {
+      setUser(null);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );

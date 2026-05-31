@@ -301,15 +301,15 @@ router.post('/verify', async (req: Request, res: Response) => {
         console.warn('Stock decrement issues during payment verification:', stockErrors);
       }
 
-      // Update user stats (find or create by firebaseUid)
+      // Update user stats for the authenticated user ID
       if (order.userId && order.userId !== 'guest') {
         try {
           await User.findOneAndUpdate(
-            { firebaseUid: order.userId },
+            { userId: order.userId },
             {
               $inc: { orderCount: 1, totalSpent: order.totalAmount },
               $setOnInsert: {
-                firebaseUid: order.userId,
+                userId: order.userId,
                 email: order.customerEmail,
                 name: order.customerName || order.shippingAddress.fullName,
               },
@@ -349,6 +349,14 @@ router.post('/verify', async (req: Request, res: Response) => {
         razorpaySignature: razorpay_signature,
       });
 
+      // Update Order status to "payment-failed"
+      await Order.findByIdAndUpdate(order._id, {
+        status: 'payment-failed',
+        $push: {
+          statusHistory: { status: 'payment-failed', changedAt: new Date(), note: 'Payment verification failed - signature mismatch' },
+        },
+      });
+
       return res.status(400).json({
         error: 'Payment verification failed',
         message: 'Signature mismatch',
@@ -356,6 +364,56 @@ router.post('/verify', async (req: Request, res: Response) => {
     }
   } catch (error) {
     console.error('Error verifying payment:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+/**
+ * POST /api/payments/cancel
+ * Cancel a pending payment/order when user closes payment modal without completing.
+ */
+router.post('/cancel', async (req: Request, res: Response) => {
+  try {
+    const { razorpay_order_id } = req.body;
+
+    if (!razorpay_order_id) {
+      return res.status(400).json({ error: 'razorpay_order_id is required' });
+    }
+
+    // Find the payment record
+    const payment = await Payment.findOne({ razorpayOrderId: razorpay_order_id });
+
+    if (!payment) {
+      return res.status(404).json({ error: 'Payment not found' });
+    }
+
+    // Only cancel if still pending
+    if (payment.status !== 'pending') {
+      return res.status(400).json({ 
+        error: 'Cannot cancel payment', 
+        message: `Payment is already ${payment.status}` 
+      });
+    }
+
+    // Update payment status
+    payment.status = 'cancelled';
+    await payment.save();
+
+    // Update order status
+    const order = await Order.findById(payment.orderId);
+    if (order && order.status === 'placed') {
+      order.status = 'cancelled';
+      order.statusHistory.push({
+        status: 'cancelled',
+        changedAt: new Date(),
+        note: 'Payment cancelled by user',
+      });
+      await order.save();
+    }
+
+    return res.json({ success: true, message: 'Payment cancelled' });
+  } catch (error) {
+    console.error('Error cancelling payment:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -472,6 +530,18 @@ router.post('/webhook', async (req: Request, res: Response) => {
       payment.status = 'failed';
       payment.razorpayPaymentId = razorpayPaymentId;
       await payment.save();
+
+      // Update order status to payment-failed
+      const order = await Order.findById(payment.orderId);
+      if (order && (order.status === 'placed' || order.status === 'pending')) {
+        order.status = 'payment-failed';
+        order.statusHistory.push({
+          status: 'payment-failed',
+          changedAt: new Date(),
+          note: 'Payment failed via Razorpay webhook',
+        });
+        await order.save();
+      }
 
       return res.status(200).json({ status: 'processed', event: 'payment.failed' });
 

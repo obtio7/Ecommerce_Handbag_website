@@ -12,9 +12,11 @@ export interface IAddress {
 }
 
 export interface IUser extends Document {
-  firebaseUid: string;
+  userId: string;
   email: string;
   name: string;
+  passwordHash?: string;
+  photoURL?: string;
   phone?: string;
   addresses: IAddress[];
   orderCount: number;
@@ -36,9 +38,11 @@ const AddressSchema = new Schema({
 
 const UserSchema = new Schema<IUser>(
   {
-    firebaseUid: { type: String, required: true, unique: true },
-    email: { type: String, required: true },
+    userId: { type: String, required: true, unique: true, index: true },
+    email: { type: String, required: true, trim: true, lowercase: true, index: true },
     name: { type: String, required: true },
+    passwordHash: { type: String },
+    photoURL: { type: String, default: '' },
     phone: { type: String },
     addresses: { type: [AddressSchema], default: [] },
     orderCount: { type: Number, default: 0, min: 0 },
@@ -47,7 +51,6 @@ const UserSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-UserSchema.index({ firebaseUid: 1 }, { unique: true });
 UserSchema.index({ email: 1 });
 
 export default mongoose.model<IUser>('User', UserSchema);

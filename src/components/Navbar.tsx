@@ -8,7 +8,7 @@ import { Product, mapApiProduct } from '../types';
 import { useWishlist } from '../context/WishlistContext';
 
 const Navbar: React.FC = () => {
-  const { user, loginWithGoogle, logout } = useAuth();
+  const { user, logout } = useAuth();
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
   const navigate = useNavigate();
@@ -154,7 +154,7 @@ const Navbar: React.FC = () => {
                 </div>
               ) : (
                 <button 
-                  onClick={loginWithGoogle}
+                  onClick={() => navigate('/account')}
                   className="flex items-center gap-2 p-2 text-black hover:text-primary transition-colors"
                   id="login-button"
                 >
@@ -377,10 +377,10 @@ const Navbar: React.FC = () => {
                   </div>
                 ) : (
                   <button
-                    onClick={() => { loginWithGoogle(); closeMobileMenu(); }}
+                    onClick={() => { navigate('/account'); closeMobileMenu(); }}
                     className="w-full py-4 bg-primary text-white text-[11px] uppercase tracking-[0.3em] font-bold rounded-full hover:bg-black transition-all"
                   >
-                    Sign In with Google
+                    Sign In
                   </button>
                 )}
               </div>

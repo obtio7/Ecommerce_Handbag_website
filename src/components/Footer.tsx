@@ -80,9 +80,7 @@ const Footer: React.FC = () => {
           © 2026 Zarevielle Studio. All Rights Reserved.
         </p>
         <div className="flex gap-6 md:gap-10 text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] text-black font-bold">
-          <a href="#" className="hover:text-primary transition-colors">Instagram</a>
-          <a href="#" className="hover:text-primary transition-colors">Pinterest</a>
-          <a href="#" className="hover:text-primary transition-colors">Journal</a>
+          <a href="https://instagram.com/zarevielleofficial" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Instagram</a>
         </div>
       </div>
     </footer>

@@ -8,11 +8,20 @@ const router = Router();
 // Apply adminAuth middleware to all routes
 router.use(adminAuth);
 
-// Initialize Razorpay
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || '',
-  key_secret: process.env.RAZORPAY_KEY_SECRET || '',
-});
+// Lazy initialize Razorpay (only when needed)
+let razorpay: Razorpay | null = null;
+function getRazorpay(): Razorpay {
+  if (!razorpay) {
+    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+      throw new Error('Razorpay credentials not configured');
+    }
+    razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+  }
+  return razorpay;
+}
 
 interface RefundRequest {
   _id: string;
@@ -190,7 +199,7 @@ router.post('/:id/process', async (req: Request, res: Response) => {
     
     // Process refund through Razorpay
     try {
-      const refund = await razorpay.payments.refund(order.paymentId, {
+      const refund = await getRazorpay().payments.refund(order.paymentId, {
         amount: order.totalAmount * 100, // Convert to paise
         speed: 'normal',
         notes: {

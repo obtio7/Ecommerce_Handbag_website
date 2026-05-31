@@ -55,10 +55,10 @@ const MyOrders: React.FC = () => {
 
     const fetchOrders = async () => {
       try {
-        const res = await fetch(`/api/orders/my-orders?userId=${user.uid}`);
+        const res = await fetch(`/api/orders/my?email=${encodeURIComponent(user.email || '')}`);
         if (res.ok) {
           const data = await res.json();
-          setOrders(data.orders);
+          setOrders(data || []);
         }
       } catch (error) {
         console.error('Failed to fetch orders:', error);

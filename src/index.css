@@ -30,6 +30,19 @@
   .card-shadow {
     box-shadow: 0 10px 30px -10px rgba(90, 90, 64, 0.15);
   }
+
+  :focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    box-shadow: 0 0 0 4px rgba(90, 90, 64, 0.12);
+  }
 }
 
 @keyframes shimmer {

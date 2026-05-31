@@ -32,6 +32,7 @@ const STATUS_OPTIONS = [
   { value: 'out-for-delivery', label: 'Out for Delivery' },
   { value: 'delivered', label: 'Delivered' },
   { value: 'cancelled', label: 'Cancelled' },
+  { value: 'payment-failed', label: 'Payment Failed' },
 ];
 
 const STATUS_BADGE_COLORS: Record<string, string> = {
@@ -41,6 +42,7 @@ const STATUS_BADGE_COLORS: Record<string, string> = {
   'out-for-delivery': 'bg-orange-100 text-orange-700',
   delivered: 'bg-green-100 text-green-700',
   cancelled: 'bg-red-100 text-red-700',
+  'payment-failed': 'bg-red-200 text-red-800',
 };
 
 const formatCurrency = (amount: number): string => {

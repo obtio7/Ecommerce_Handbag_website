@@ -242,9 +242,9 @@ export async function sendWelcomeEmail(email: string, name: string): Promise<voi
             <td style="background-color: #FDFBF7; padding: 30px 40px; text-align: center; border-top: 1px solid #eee;">
               <p style="font-size: 12px; color: #888; margin: 0;">Follow us for daily inspiration</p>
               <div style="margin: 15px 0;">
-                <a href="#" style="display: inline-block; margin: 0 8px; color: #5A5A40; text-decoration: none; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Instagram</a>
+                <a href="https://instagram.com/zarevielleofficial" style="display: inline-block; margin: 0 8px; color: #5A5A40; text-decoration: none; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Instagram</a>
                 <span style="color: #ddd;">|</span>
-                <a href="#" style="display: inline-block; margin: 0 8px; color: #5A5A40; text-decoration: none; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Pinterest</a>
+                <a href="https://pinterest.com/zarevielle" style="display: inline-block; margin: 0 8px; color: #5A5A40; text-decoration: none; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Pinterest</a>
               </div>
               <p style="font-size: 11px; color: #aaa; margin: 15px 0 0;">© 2026 Zarevielle Studio. All Rights Reserved.</p>
             </td>

@@ -21,7 +21,7 @@ A full-stack e-commerce platform for luxury handcrafted handbags, built with Rea
 - **Backend**: Express.js, Node.js
 - **Database**: MongoDB
 - **Payments**: Razorpay
-- **Auth**: Firebase Authentication
+- **Auth**: MongoDB-backed email/password authentication
 - **Images**: Cloudinary
 - **Email**: Nodemailer
 
@@ -50,10 +50,9 @@ npm install
 3. Create environment file:
 ```bash
 cp .env.example .env
-cp firebase-applet-config.example.json firebase-applet-config.json
 ```
 
-4. Fill in your credentials in `.env` and `firebase-applet-config.json`
+4. Fill in your credentials in `.env`
 
 5. Start development server:
 ```bash
@@ -78,6 +77,9 @@ See `.env.example` for all required environment variables:
 - `RAZORPAY_KEY_SECRET` - Razorpay secret
 - `CLOUDINARY_*` - Cloudinary credentials
 - `SMTP_*` - Email configuration
+- `SITE_URL` - Base site URL used in emails and links
+- `ALLOWED_ORIGINS` - Allowed CORS origins for the API
+- `SENTRY_DSN` - Optional backend error tracking DSN
 
 ## Project Structure
 

@@ -29,7 +29,7 @@ export interface IShippingAddress {
 
 export interface IOrder extends Document {
   orderNumber: string; // human-readable order number like "ZRV-20260527-001"
-  userId: string; // Firebase UID
+  userId: string; // Authenticated user ID or guest session identifier
   customerEmail: string;
   customerName: string;
   customerPhone?: string;
@@ -87,7 +87,7 @@ const OrderSchema = new Schema<IOrder>(
     couponCode: { type: String },
     status: {
       type: String,
-      enum: ['placed', 'confirmed', 'processing', 'shipped', 'out-for-delivery', 'delivered', 'cancelled', 'return-requested', 'returned'],
+      enum: ['placed', 'confirmed', 'processing', 'shipped', 'out-for-delivery', 'delivered', 'cancelled', 'payment-failed', 'return-requested', 'returned'],
       default: 'placed',
     },
     shippingAddress: {
@@ -118,7 +118,7 @@ OrderSchema.index({ orderNumber: 1 });
 OrderSchema.index({ userId: 1, createdAt: -1 });
 
 export const VALID_TRANSITIONS: Record<string, string[]> = {
-  'placed': ['confirmed', 'cancelled'],
+  'placed': ['confirmed', 'cancelled', 'payment-failed'],
   'confirmed': ['processing', 'cancelled'],
   'processing': ['shipped', 'cancelled'],
   'shipped': ['out-for-delivery', 'cancelled'],
@@ -127,6 +127,7 @@ export const VALID_TRANSITIONS: Record<string, string[]> = {
   'return-requested': ['returned', 'delivered'], // admin can reject return
   'returned': [],
   'cancelled': [],
+  'payment-failed': ['cancelled'], // can only be cancelled
 };
 
 // Generate a human-readable order number

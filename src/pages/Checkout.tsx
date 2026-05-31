@@ -245,8 +245,18 @@ const Checkout: React.FC = () => {
         },
         theme: { color: '#5A5A40' },
         modal: {
-          ondismiss: () => {
-            setErrorMessage('Payment was not completed. You can retry by submitting again.');
+          ondismiss: async () => {
+            // Cancel the order when user closes payment modal
+            try {
+              await fetch('/api/payments/cancel', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ razorpay_order_id: order.razorpayOrderId }),
+              });
+            } catch (err) {
+              console.error('Failed to cancel order:', err);
+            }
+            setErrorMessage('Payment was cancelled. You can retry by submitting again.');
             setLoading(false);
           },
         },

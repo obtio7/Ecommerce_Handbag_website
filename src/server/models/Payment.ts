@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IPayment extends Document {
   // Associations
   orderId: mongoose.Types.ObjectId;
-  userId: string; // Firebase UID — links payment to user
+  userId: string; // Authenticated user ID or guest session identifier
   customerEmail: string;
 
   // Razorpay details
@@ -16,7 +16,7 @@ export interface IPayment extends Document {
   currency: string;
 
   // Status
-  status: 'pending' | 'paid' | 'failed' | 'refunded' | 'partially_refunded';
+  status: 'pending' | 'paid' | 'failed' | 'cancelled' | 'refunded' | 'partially_refunded';
   method?: string; // "upi", "card", "netbanking", "wallet"
   bank?: string; // bank name if netbanking
   cardLast4?: string; // last 4 digits if card payment
@@ -54,7 +54,7 @@ const PaymentSchema = new Schema<IPayment>(
     // Status
     status: {
       type: String,
-      enum: ['pending', 'paid', 'failed', 'refunded', 'partially_refunded'],
+      enum: ['pending', 'paid', 'failed', 'cancelled', 'refunded', 'partially_refunded'],
       default: 'pending',
     },
     method: { type: String, maxlength: 50 },

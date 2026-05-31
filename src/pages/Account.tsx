@@ -33,7 +33,7 @@ interface SavedAddress {
 }
 
 const Account: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, login, signup, logout } = useAuth();
   const { wishlistCount } = useWishlist();
   const { recentlyViewed } = useRecentlyViewed();
   const navigate = useNavigate();
@@ -42,13 +42,11 @@ const Account: React.FC = () => {
   const [loadingOrders, setLoadingOrders] = useState(false);
   const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
   const [editingAddress, setEditingAddress] = useState<string | null>(null);
-
-  // Redirect if not logged in
-  useEffect(() => {
-    if (!user) {
-      navigate('/');
-    }
-  }, [user, navigate]);
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+  const [authLoading, setAuthLoading] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [loginData, setLoginData] = useState({ email: '', password: '' });
+  const [signupData, setSignupData] = useState({ name: '', email: '', password: '' });
 
   // Fetch orders
   useEffect(() => {
@@ -66,13 +64,13 @@ const Account: React.FC = () => {
   }, []);
 
   const fetchOrders = async () => {
-    if (!user) return;
+    if (!user?.email) return;
     setLoadingOrders(true);
     try {
-      const res = await fetch(`/api/orders?userId=${user.uid}`);
+      const res = await fetch(`/api/orders/my?email=${encodeURIComponent(user.email)}`);
       if (res.ok) {
         const data = await res.json();
-        setOrders(data.data || []);
+        setOrders(data || []);
       }
     } catch (err) {
       console.error('Failed to fetch orders:', err);
@@ -81,8 +79,41 @@ const Account: React.FC = () => {
     }
   };
 
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthError(null);
+    setAuthLoading(true);
+
+    try {
+      await login(loginData.email, loginData.password);
+      setLoginData({ email: '', password: '' });
+      navigate('/account');
+    } catch (error: any) {
+      setAuthError(error.message || 'Login failed.');
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthError(null);
+    setAuthLoading(true);
+
+    try {
+      await signup(signupData.name, signupData.email, signupData.password);
+      setSignupData({ name: '', email: '', password: '' });
+      setAuthMode('login');
+      navigate('/account');
+    } catch (error: any) {
+      setAuthError(error.message || 'Signup failed.');
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
   const saveAddress = (address: SavedAddress) => {
-    const updated = savedAddresses.map(a => 
+    const updated = savedAddresses.map(a =>
       a.id === address.id ? address : a
     );
     setSavedAddresses(updated);
@@ -111,7 +142,111 @@ const Account: React.FC = () => {
   };
 
   if (!user) {
-    return null;
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-24">
+        <div className="bg-white shadow-xl rounded-3xl p-8 border border-border-tan/30">
+          <div className="flex items-center justify-between gap-4 mb-8">
+            <div>
+              <h1 className="text-4xl font-serif tracking-tight">Welcome back</h1>
+              <p className="text-sm text-black/60 mt-2">Sign in or create an account to manage orders, addresses, and wishlist items.</p>
+            </div>
+            <div className="text-xs uppercase tracking-[0.2em] text-black/50">
+              <button
+                onClick={() => setAuthMode('login')}
+                className={`px-4 py-2 rounded-full ${authMode === 'login' ? 'bg-primary text-white' : 'bg-surface text-black'}`}
+              >
+                Login
+              </button>
+              <button
+                onClick={() => setAuthMode('signup')}
+                className={`ml-2 px-4 py-2 rounded-full ${authMode === 'signup' ? 'bg-primary text-white' : 'bg-surface text-black'}`}
+              >
+                Sign up
+              </button>
+            </div>
+          </div>
+
+          <form onSubmit={authMode === 'login' ? handleLogin : handleSignup} className="space-y-4">
+            {authError && (
+              <div className="rounded-2xl bg-red-50 border border-red-200 p-4 text-sm text-red-700">
+                {authError}
+              </div>
+            )}
+
+            {authMode === 'signup' && (
+              <div>
+                <label className="block text-xs uppercase tracking-[0.2em] text-black/50 mb-2">Name</label>
+                <input
+                  type="text"
+                  value={signupData.name}
+                  onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
+                  className="w-full rounded-3xl border border-border-tan/70 px-4 py-3 focus:border-primary outline-none"
+                  placeholder="Full name"
+                  required
+                />
+              </div>
+            )}
+
+            <div>
+              <label className="block text-xs uppercase tracking-[0.2em] text-black/50 mb-2">Email</label>
+              <input
+                type="email"
+                value={authMode === 'login' ? loginData.email : signupData.email}
+                onChange={(e) => {
+                  if (authMode === 'login') {
+                    setLoginData({ ...loginData, email: e.target.value });
+                  } else {
+                    setSignupData({ ...signupData, email: e.target.value });
+                  }
+                }}
+                className="w-full rounded-3xl border border-border-tan/70 px-4 py-3 focus:border-primary outline-none"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs uppercase tracking-[0.2em] text-black/50 mb-2">Password</label>
+              <input
+                type="password"
+                value={authMode === 'login' ? loginData.password : signupData.password}
+                onChange={(e) => {
+                  if (authMode === 'login') {
+                    setLoginData({ ...loginData, password: e.target.value });
+                  } else {
+                    setSignupData({ ...signupData, password: e.target.value });
+                  }
+                }}
+                className="w-full rounded-3xl border border-border-tan/70 px-4 py-3 focus:border-primary outline-none"
+                placeholder="Minimum 8 characters"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={authLoading}
+              className="w-full py-4 rounded-3xl bg-primary text-white uppercase tracking-[0.2em] font-bold disabled:opacity-60"
+            >
+              {authMode === 'login' ? 'Sign in' : 'Create account'}
+            </button>
+          </form>
+
+          <p className="text-xs text-black/50 mt-4">
+            {authMode === 'login'
+              ? 'No account yet? '
+              : 'Already have an account? '}
+            <button
+              type="button"
+              onClick={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')}
+              className="text-primary font-bold underline"
+            >
+              {authMode === 'login' ? 'Create one' : 'Sign in'}
+            </button>
+          </p>
+        </div>
+      </div>
+    );
   }
 
   const getStatusColor = (status: string) => {

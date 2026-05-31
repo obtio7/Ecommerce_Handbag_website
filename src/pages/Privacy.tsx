@@ -36,7 +36,7 @@ const Privacy: React.FC = () => {
           <p className="text-sm leading-relaxed">We share your information with the following third-party services only as necessary:</p>
           <ul className="list-disc list-inside space-y-2 text-sm mt-3">
             <li><strong>Razorpay:</strong> For secure payment processing. Razorpay's privacy policy governs their handling of your payment data.</li>
-            <li><strong>Google Firebase:</strong> For authentication services.</li>
+            <li><strong>MongoDB:</strong> For securely storing user accounts, orders, and checkout data.</li>
             <li><strong>Shipping partners:</strong> Your name and address are shared with delivery services to fulfill your order.</li>
           </ul>
           <p className="text-sm leading-relaxed mt-3">

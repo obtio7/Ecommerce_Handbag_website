@@ -293,98 +293,90 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu Overlay - Simple CSS version */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-[100]">
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-black/50"
-            onClick={closeMobileMenu}
-          />
-          {/* Menu Panel */}
-          <div className="absolute inset-0 bg-[#F5F3EF] overflow-y-auto">
-            {/* Header */}
-            <div className="sticky top-0 flex items-center justify-between px-6 py-5 bg-[#3D3D29] z-10">
-              <span className="text-xl font-serif tracking-tighter font-bold text-white">ZAREVIELLE</span>
-              <button onClick={closeMobileMenu} className="p-2 text-white" aria-label="Close menu">
-                <X size={24} />
-              </button>
+        <div className="fixed inset-0 z-[9999]" style={{ backgroundColor: '#F5F3EF' }}>
+          {/* Header */}
+          <div className="flex items-center justify-between px-6 py-5" style={{ backgroundColor: '#3D3D29' }}>
+            <span className="text-xl font-serif tracking-tighter font-bold text-white">ZAREVIELLE</span>
+            <button onClick={closeMobileMenu} className="p-2 text-white" aria-label="Close menu">
+              <X size={24} />
+            </button>
+          </div>
+
+          {/* Menu Content */}
+          <div className="p-6 overflow-y-auto" style={{ height: 'calc(100vh - 74px)' }}>
+            {/* Main Navigation */}
+            <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: '#3D3D29', opacity: 0.5 }}>Menu</p>
+            <div className="bg-white rounded-2xl p-4 shadow-sm mb-6">
+              <Link to="/" onClick={closeMobileMenu} className="block py-3 text-lg border-b" style={{ color: '#3D3D29', borderColor: 'rgba(61,61,41,0.1)' }}>
+                Home
+              </Link>
+              <Link to="/collection" onClick={closeMobileMenu} className="block py-3 text-lg border-b" style={{ color: '#3D3D29', borderColor: 'rgba(61,61,41,0.1)' }}>
+                All Collection
+              </Link>
+              <Link to="/about" onClick={closeMobileMenu} className="block py-3 text-lg border-b" style={{ color: '#3D3D29', borderColor: 'rgba(61,61,41,0.1)' }}>
+                About Us
+              </Link>
+              <Link to="/contact" onClick={closeMobileMenu} className="block py-3 text-lg" style={{ color: '#3D3D29' }}>
+                Contact
+              </Link>
             </div>
 
-            {/* Menu Content */}
-            <div className="p-6">
-              {/* Main Navigation */}
-              <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Menu</p>
-              <div className="bg-white rounded-2xl p-4 shadow-sm mb-6">
-                <Link to="/" onClick={closeMobileMenu} className="block py-3 text-lg font-serif text-[#3D3D29] border-b border-[#3D3D29]/10">
-                  Home
-                </Link>
-                <Link to="/collection" onClick={closeMobileMenu} className="block py-3 text-lg font-serif text-[#3D3D29] border-b border-[#3D3D29]/10">
-                  All Collection
-                </Link>
-                <Link to="/about" onClick={closeMobileMenu} className="block py-3 text-lg font-serif text-[#3D3D29] border-b border-[#3D3D29]/10">
-                  About Us
-                </Link>
-                <Link to="/contact" onClick={closeMobileMenu} className="block py-3 text-lg font-serif text-[#3D3D29]">
-                  Contact
-                </Link>
-              </div>
+            {/* Shop by Category */}
+            <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: '#3D3D29', opacity: 0.5 }}>Shop by Category</p>
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Tote'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium shadow-sm" style={{ color: '#3D3D29' }}>Tote Bags</button>
+              <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Clutch'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium shadow-sm" style={{ color: '#3D3D29' }}>Clutches</button>
+              <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Sling'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium shadow-sm" style={{ color: '#3D3D29' }}>Sling Bags</button>
+              <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Handbag'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium shadow-sm" style={{ color: '#3D3D29' }}>Handbags</button>
+              <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Crossbody'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium shadow-sm" style={{ color: '#3D3D29' }}>Crossbody</button>
+              <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Mini'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium shadow-sm" style={{ color: '#3D3D29' }}>Mini Bags</button>
+            </div>
 
-              {/* Shop by Category */}
-              <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Shop by Category</p>
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Tote'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Tote Bags</button>
-                <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Clutch'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Clutches</button>
-                <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Sling'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Sling Bags</button>
-                <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Handbag'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Handbags</button>
-                <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Crossbody'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Crossbody</button>
-                <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Mini'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Mini Bags</button>
-              </div>
-
-              {/* Quick Links */}
-              <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Quick Links</p>
-              <div className="bg-white rounded-2xl p-4 shadow-sm mb-6">
-                <Link to="/wishlist" onClick={closeMobileMenu} className="flex items-center justify-between py-3 text-[#3D3D29] border-b border-[#3D3D29]/10">
-                  <div className="flex items-center gap-3">
-                    <Heart size={20} strokeWidth={1.5} />
-                    <span className="font-medium">Wishlist</span>
-                  </div>
-                  {wishlistCount > 0 && (
-                    <span className="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">{wishlistCount}</span>
-                  )}
-                </Link>
-                <Link to="/cart" onClick={closeMobileMenu} className="flex items-center justify-between py-3 text-[#3D3D29]">
-                  <div className="flex items-center gap-3">
-                    <ShoppingBag size={20} strokeWidth={1.5} />
-                    <span className="font-medium">Shopping Bag</span>
-                  </div>
-                  {cartCount > 0 && (
-                    <span className="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">{cartCount}</span>
-                  )}
-                </Link>
-              </div>
-
-              {/* Login/Logout Button */}
-              {user ? (
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3 bg-white rounded-2xl p-4 shadow-sm">
-                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#3D3D29]/20 bg-gray-200">
-                      {user.photoURL && <img src={user.photoURL} alt="" referrerPolicy="no-referrer" className="w-full h-full object-cover" />}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#3D3D29] truncate">{user.displayName || 'Welcome!'}</p>
-                      <p className="text-xs text-[#3D3D29]/50 truncate">{user.email}</p>
-                    </div>
-                  </div>
-                  <button onClick={() => { logout(); closeMobileMenu(); }} className="w-full py-4 bg-[#3D3D29] text-white text-sm uppercase tracking-[0.2em] font-bold rounded-full">
-                    Logout
-                  </button>
+            {/* Quick Links */}
+            <p className="text-xs uppercase tracking-widest font-bold mb-4" style={{ color: '#3D3D29', opacity: 0.5 }}>Quick Links</p>
+            <div className="bg-white rounded-2xl p-4 shadow-sm mb-6">
+              <Link to="/wishlist" onClick={closeMobileMenu} className="flex items-center justify-between py-3 border-b" style={{ color: '#3D3D29', borderColor: 'rgba(61,61,41,0.1)' }}>
+                <div className="flex items-center gap-3">
+                  <Heart size={20} strokeWidth={1.5} />
+                  <span className="font-medium">Wishlist</span>
                 </div>
-              ) : (
-                <button onClick={() => { closeMobileMenu(); navigate('/account'); }} className="w-full py-4 bg-[#3D3D29] text-white text-sm uppercase tracking-[0.2em] font-bold rounded-full flex items-center justify-center gap-2">
-                  <User size={18} />
-                  Login / Sign Up
-                </button>
-              )}
+                {wishlistCount > 0 && (
+                  <span className="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">{wishlistCount}</span>
+                )}
+              </Link>
+              <Link to="/cart" onClick={closeMobileMenu} className="flex items-center justify-between py-3" style={{ color: '#3D3D29' }}>
+                <div className="flex items-center gap-3">
+                  <ShoppingBag size={20} strokeWidth={1.5} />
+                  <span className="font-medium">Shopping Bag</span>
+                </div>
+                {cartCount > 0 && (
+                  <span className="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">{cartCount}</span>
+                )}
+              </Link>
             </div>
+
+            {/* Login/Logout Button */}
+            {user ? (
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 bg-white rounded-2xl p-4 shadow-sm">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 bg-gray-200" style={{ borderColor: 'rgba(61,61,41,0.2)' }}>
+                    {user.photoURL && <img src={user.photoURL} alt="" referrerPolicy="no-referrer" className="w-full h-full object-cover" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate" style={{ color: '#3D3D29' }}>{user.displayName || 'Welcome!'}</p>
+                    <p className="text-xs truncate" style={{ color: 'rgba(61,61,41,0.5)' }}>{user.email}</p>
+                  </div>
+                </div>
+                <button onClick={() => { logout(); closeMobileMenu(); }} className="w-full py-4 text-white text-sm uppercase tracking-widest font-bold rounded-full" style={{ backgroundColor: '#3D3D29' }}>
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <button onClick={() => { closeMobileMenu(); navigate('/account'); }} className="w-full py-4 text-white text-sm uppercase tracking-widest font-bold rounded-full flex items-center justify-center gap-2" style={{ backgroundColor: '#3D3D29' }}>
+                <User size={18} />
+                Login / Sign Up
+              </button>
+            )}
           </div>
         </div>
       )}

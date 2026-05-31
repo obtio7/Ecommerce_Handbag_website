@@ -303,159 +303,93 @@ const Navbar: React.FC = () => {
               className="fixed inset-0 bg-black/50 z-[100]"
               onClick={closeMobileMenu}
             />
-            {/* Slide-in Panel - Full screen with brand colors */}
+            {/* Slide-in Panel */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed inset-0 bg-white z-[101] flex flex-col overflow-hidden"
+              className="fixed top-0 right-0 bottom-0 w-full bg-[#F5F3EF] z-[101] overflow-y-auto"
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-5 bg-[#3D3D29]">
+              <div className="sticky top-0 flex items-center justify-between px-6 py-5 bg-[#3D3D29]">
                 <span className="text-xl font-serif tracking-tighter font-bold text-white">ZAREVIELLE</span>
                 <button onClick={closeMobileMenu} className="p-2 text-white" aria-label="Close menu">
                   <X size={24} />
                 </button>
               </div>
 
-              {/* Scrollable Content */}
-              <div className="flex-1 overflow-y-auto bg-[#F5F3EF]">
+              {/* Menu Content */}
+              <div className="p-6">
                 {/* Main Navigation */}
-                <div className="px-6 py-6">
-                  <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Menu</p>
-                  <div className="space-y-1 bg-white rounded-2xl p-4 shadow-sm">
-                    <Link 
-                      to="/" 
-                      onClick={closeMobileMenu} 
-                      className="block py-3 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
-                    >
-                      Home
-                    </Link>
-                    <Link 
-                      to="/collection" 
-                      onClick={closeMobileMenu} 
-                      className="block py-3 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
-                    >
-                      All Collection
-                    </Link>
-                    <Link 
-                      to="/about" 
-                      onClick={closeMobileMenu} 
-                      className="block py-3 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
-                    >
-                      About Us
-                    </Link>
-                    <Link 
-                      to="/contact" 
-                      onClick={closeMobileMenu} 
-                      className="block py-3 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors"
-                    >
-                      Contact
-                    </Link>
-                  </div>
+                <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Menu</p>
+                <div className="bg-white rounded-2xl p-4 shadow-sm mb-6">
+                  <Link to="/" onClick={closeMobileMenu} className="block py-3 text-lg font-serif text-[#3D3D29] border-b border-[#3D3D29]/10">
+                    Home
+                  </Link>
+                  <Link to="/collection" onClick={closeMobileMenu} className="block py-3 text-lg font-serif text-[#3D3D29] border-b border-[#3D3D29]/10">
+                    All Collection
+                  </Link>
+                  <Link to="/about" onClick={closeMobileMenu} className="block py-3 text-lg font-serif text-[#3D3D29] border-b border-[#3D3D29]/10">
+                    About Us
+                  </Link>
+                  <Link to="/contact" onClick={closeMobileMenu} className="block py-3 text-lg font-serif text-[#3D3D29]">
+                    Contact
+                  </Link>
                 </div>
 
                 {/* Shop by Category */}
-                <div className="px-6 py-4">
-                  <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Shop by Category</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    {[
-                      { name: 'Tote Bags', category: 'Tote' },
-                      { name: 'Clutches', category: 'Clutch' },
-                      { name: 'Sling Bags', category: 'Sling' },
-                      { name: 'Handbags', category: 'Handbag' },
-                      { name: 'Crossbody', category: 'Crossbody' },
-                      { name: 'Mini Bags', category: 'Mini' },
-                    ].map((item) => (
-                      <button
-                        key={item.category}
-                        onClick={() => {
-                          closeMobileMenu();
-                          navigate(`/collection?category=${encodeURIComponent(item.category)}`);
-                        }}
-                        className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] hover:bg-[#3D3D29] hover:text-white transition-all text-center shadow-sm"
-                      >
-                        {item.name}
-                      </button>
-                    ))}
-                  </div>
+                <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Shop by Category</p>
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Tote'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Tote Bags</button>
+                  <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Clutch'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Clutches</button>
+                  <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Sling'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Sling Bags</button>
+                  <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Handbag'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Handbags</button>
+                  <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Crossbody'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Crossbody</button>
+                  <button onClick={() => { closeMobileMenu(); navigate('/collection?category=Mini'); }} className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] shadow-sm">Mini Bags</button>
                 </div>
 
                 {/* Quick Links */}
-                <div className="px-6 py-4">
-                  <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Quick Links</p>
-                  <div className="bg-white rounded-2xl p-4 shadow-sm space-y-1">
-                    <Link 
-                      to="/wishlist" 
-                      onClick={closeMobileMenu} 
-                      className="flex items-center justify-between py-3 text-[#3D3D29] border-b border-[#3D3D29]/10"
-                    >
-                      <div className="flex items-center gap-3">
-                        <Heart size={20} strokeWidth={1.5} />
-                        <span className="font-medium">Wishlist</span>
-                      </div>
-                      {wishlistCount > 0 && (
-                        <span className="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
-                          {wishlistCount}
-                        </span>
-                      )}
-                    </Link>
-                    <Link 
-                      to="/cart" 
-                      onClick={closeMobileMenu} 
-                      className="flex items-center justify-between py-3 text-[#3D3D29]"
-                    >
-                      <div className="flex items-center gap-3">
-                        <ShoppingBag size={20} strokeWidth={1.5} />
-                        <span className="font-medium">Shopping Bag</span>
-                      </div>
-                      {cartCount > 0 && (
-                        <span className="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
-                          {cartCount}
-                        </span>
-                      )}
-                    </Link>
-                  </div>
+                <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Quick Links</p>
+                <div className="bg-white rounded-2xl p-4 shadow-sm mb-6">
+                  <Link to="/wishlist" onClick={closeMobileMenu} className="flex items-center justify-between py-3 text-[#3D3D29] border-b border-[#3D3D29]/10">
+                    <div className="flex items-center gap-3">
+                      <Heart size={20} strokeWidth={1.5} />
+                      <span className="font-medium">Wishlist</span>
+                    </div>
+                    {wishlistCount > 0 && (
+                      <span className="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">{wishlistCount}</span>
+                    )}
+                  </Link>
+                  <Link to="/cart" onClick={closeMobileMenu} className="flex items-center justify-between py-3 text-[#3D3D29]">
+                    <div className="flex items-center gap-3">
+                      <ShoppingBag size={20} strokeWidth={1.5} />
+                      <span className="font-medium">Shopping Bag</span>
+                    </div>
+                    {cartCount > 0 && (
+                      <span className="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">{cartCount}</span>
+                    )}
+                  </Link>
                 </div>
-              </div>
 
-              {/* Footer - Login/Logout Button */}
-              <div className="px-6 py-6 bg-white border-t border-[#3D3D29]/10">
+                {/* Login/Logout Button */}
                 {user ? (
                   <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#3D3D29]/20">
-                        <img 
-                          src={user.photoURL || ''} 
-                          alt={user.displayName || 'User'} 
-                          referrerPolicy="no-referrer" 
-                          className="w-full h-full object-cover" 
-                        />
+                    <div className="flex items-center gap-3 bg-white rounded-2xl p-4 shadow-sm">
+                      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#3D3D29]/20 bg-gray-200">
+                        {user.photoURL && <img src={user.photoURL} alt="" referrerPolicy="no-referrer" className="w-full h-full object-cover" />}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-[#3D3D29] truncate">{user.displayName || 'Welcome back!'}</p>
+                        <p className="text-sm font-medium text-[#3D3D29] truncate">{user.displayName || 'Welcome!'}</p>
                         <p className="text-xs text-[#3D3D29]/50 truncate">{user.email}</p>
                       </div>
                     </div>
-                    <button
-                      onClick={() => {
-                        logout();
-                        closeMobileMenu();
-                      }}
-                      className="w-full py-4 bg-[#3D3D29] text-white text-sm uppercase tracking-[0.2em] font-bold rounded-full hover:bg-black transition-colors"
-                    >
+                    <button onClick={() => { logout(); closeMobileMenu(); }} className="w-full py-4 bg-[#3D3D29] text-white text-sm uppercase tracking-[0.2em] font-bold rounded-full">
                       Logout
                     </button>
                   </div>
                 ) : (
-                  <button
-                    onClick={() => {
-                      closeMobileMenu();
-                      navigate('/account');
-                    }}
-                    className="w-full py-4 bg-[#3D3D29] text-white text-sm uppercase tracking-[0.2em] font-bold rounded-full hover:bg-black transition-colors flex items-center justify-center gap-2"
-                  >
+                  <button onClick={() => { closeMobileMenu(); navigate('/account'); }} className="w-full py-4 bg-[#3D3D29] text-white text-sm uppercase tracking-[0.2em] font-bold rounded-full flex items-center justify-center gap-2">
                     <User size={18} />
                     Login / Sign Up
                   </button>

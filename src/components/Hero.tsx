@@ -34,7 +34,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="text-7xl md:text-[120px] leading-[0.85] font-serif font-bold tracking-tighter mb-10 text-primary"
+            className="text-5xl sm:text-6xl md:text-[110px] leading-[0.9] font-serif font-bold tracking-tighter mb-10 text-primary"
           >
             ZAREVIELLE
           </motion.h1>

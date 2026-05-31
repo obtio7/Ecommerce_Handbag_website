@@ -293,7 +293,19 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu Overlay - Simple CSS version */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-[9999]" style={{ backgroundColor: '#F5F3EF' }}>
+        <div 
+          className="fixed inset-0 z-[9999]" 
+          style={{ 
+            backgroundColor: '#F5F3EF',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: '100%',
+            height: '100%'
+          }}
+        >
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-5" style={{ backgroundColor: '#3D3D29' }}>
             <span className="text-xl font-serif tracking-tighter font-bold text-white">ZAREVIELLE</span>

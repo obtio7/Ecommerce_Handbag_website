@@ -293,19 +293,36 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu Overlay - Simple CSS version */}
       {mobileMenuOpen && (
-        <div 
-          className="fixed inset-0 z-[9999]" 
-          style={{ 
-            backgroundColor: '#F5F3EF',
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            width: '100%',
-            height: '100%'
-          }}
-        >
+        <>
+          {/* Solid background layer */}
+          <div 
+            style={{ 
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: '100vw',
+              height: '100vh',
+              backgroundColor: '#F5F3EF',
+              zIndex: 9998
+            }}
+          />
+          {/* Menu content */}
+          <div 
+            style={{ 
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: '100vw',
+              height: '100vh',
+              zIndex: 9999,
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-5" style={{ backgroundColor: '#3D3D29' }}>
             <span className="text-xl font-serif tracking-tighter font-bold text-white">ZAREVIELLE</span>
@@ -391,6 +408,7 @@ const Navbar: React.FC = () => {
             )}
           </div>
         </div>
+        </>
       )}
     </nav>
   );

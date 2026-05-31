@@ -303,100 +303,183 @@ const Navbar: React.FC = () => {
               className="fixed inset-0 bg-black/50 z-[100]"
               onClick={closeMobileMenu}
             />
-            {/* Slide-in Panel */}
+            {/* Slide-in Panel - Full screen with brand colors */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed inset-0 bg-secondary z-[101] flex flex-col shadow-2xl overflow-y-auto"
+              className="fixed inset-0 bg-[#F5F3EF] z-[101] flex flex-col overflow-hidden"
             >
-              {/* Close Button */}
-              <div className="flex items-center justify-between p-6 border-b border-border-tan/30">
-                <span className="text-lg font-serif tracking-tighter font-bold text-primary">ZAREVIELLE</span>
-                <button onClick={closeMobileMenu} className="p-2" aria-label="Close menu">
-                  <X size={24} className="text-black" />
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 py-5 bg-[#3D3D29]">
+                <span className="text-xl font-serif tracking-tighter font-bold text-white">ZAREVIELLE</span>
+                <button onClick={closeMobileMenu} className="p-2 text-white" aria-label="Close menu">
+                  <X size={24} />
                 </button>
               </div>
 
-              {/* Nav Links */}
-              <div className="flex-1 overflow-y-auto py-8 px-6 space-y-2">
-                <Link to="/collection" onClick={closeMobileMenu} className="block py-4 text-[12px] uppercase tracking-[0.3em] font-bold text-black hover:text-primary transition-colors border-b border-border-tan/10">
-                  Collection
-                </Link>
-                <Link to="/about" onClick={closeMobileMenu} className="block py-4 text-[12px] uppercase tracking-[0.3em] font-bold text-black hover:text-primary transition-colors border-b border-border-tan/10">
-                  About
-                </Link>
-                <Link to="/contact" onClick={closeMobileMenu} className="block py-4 text-[12px] uppercase tracking-[0.3em] font-bold text-black hover:text-primary transition-colors border-b border-border-tan/10">
-                  Contact
-                </Link>
-                {user && (
-                  <Link to="/orders" onClick={closeMobileMenu} className="block py-4 text-[12px] uppercase tracking-[0.3em] font-bold text-black hover:text-primary transition-colors border-b border-border-tan/10">
-                    My Orders
-                  </Link>
-                )}
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto">
+                {/* Main Navigation */}
+                <div className="px-6 py-6">
+                  <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Menu</p>
+                  <div className="space-y-1">
+                    <Link 
+                      to="/" 
+                      onClick={closeMobileMenu} 
+                      className="block py-4 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
+                    >
+                      Home
+                    </Link>
+                    <Link 
+                      to="/collection" 
+                      onClick={closeMobileMenu} 
+                      className="block py-4 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
+                    >
+                      All Collection
+                    </Link>
+                    <Link 
+                      to="/about" 
+                      onClick={closeMobileMenu} 
+                      className="block py-4 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
+                    >
+                      About Us
+                    </Link>
+                    <Link 
+                      to="/contact" 
+                      onClick={closeMobileMenu} 
+                      className="block py-4 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
+                    >
+                      Contact
+                    </Link>
+                    {user && (
+                      <Link 
+                        to="/orders" 
+                        onClick={closeMobileMenu} 
+                        className="block py-4 text-lg font-serif text-[#3D3D29] hover:text-[#3D3D29]/70 transition-colors border-b border-[#3D3D29]/10"
+                      >
+                        My Orders
+                      </Link>
+                    )}
+                  </div>
+                </div>
 
-                <div className="pt-6">
-                  <p className="text-[10px] uppercase tracking-[0.3em] font-semibold text-black/50 mb-3">Categories</p>
-                  <div className="space-y-2 border-t border-border-tan/10 pt-4">
-                    {['Tote', 'Clutch', 'Sling', 'Handbag', 'Crossbody', 'Mini'].map((cat) => (
+                {/* Shop by Category */}
+                <div className="px-6 py-6 bg-white/50">
+                  <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Shop by Category</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { name: 'Tote Bags', category: 'Tote' },
+                      { name: 'Clutches', category: 'Clutch' },
+                      { name: 'Sling Bags', category: 'Sling' },
+                      { name: 'Handbags', category: 'Handbag' },
+                      { name: 'Crossbody', category: 'Crossbody' },
+                      { name: 'Mini Bags', category: 'Mini' },
+                    ].map((item) => (
                       <button
-                        key={cat}
+                        key={item.category}
                         onClick={() => {
                           closeMobileMenu();
-                          navigate(`/collection?category=${encodeURIComponent(cat)}`);
+                          navigate(`/collection?category=${encodeURIComponent(item.category)}`);
                         }}
-                        className="w-full text-left py-4 text-[12px] uppercase tracking-[0.25em] font-bold text-black hover:text-primary transition-colors border-b border-border-tan/10"
+                        className="py-4 px-4 bg-white rounded-2xl text-sm font-medium text-[#3D3D29] hover:bg-[#3D3D29] hover:text-white transition-all text-center shadow-sm"
                       >
-                        {cat}
+                        {item.name}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="pt-6 space-y-2">
-                  <Link to="/wishlist" onClick={closeMobileMenu} className="flex items-center justify-between py-4 text-[12px] uppercase tracking-[0.3em] font-bold text-black hover:text-primary transition-colors border-b border-border-tan/10">
-                    <span>Wishlist</span>
-                    {wishlistCount > 0 && (
-                      <span className="bg-red-400 text-white text-[9px] rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                        {wishlistCount}
-                      </span>
+                {/* Quick Links */}
+                <div className="px-6 py-6">
+                  <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#3D3D29]/50 mb-4">Quick Links</p>
+                  <div className="space-y-1">
+                    <Link 
+                      to="/wishlist" 
+                      onClick={closeMobileMenu} 
+                      className="flex items-center justify-between py-4 text-[#3D3D29] border-b border-[#3D3D29]/10"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Heart size={20} strokeWidth={1.5} />
+                        <span className="font-medium">Wishlist</span>
+                      </div>
+                      {wishlistCount > 0 && (
+                        <span className="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
+                          {wishlistCount}
+                        </span>
+                      )}
+                    </Link>
+                    <Link 
+                      to="/cart" 
+                      onClick={closeMobileMenu} 
+                      className="flex items-center justify-between py-4 text-[#3D3D29] border-b border-[#3D3D29]/10"
+                    >
+                      <div className="flex items-center gap-3">
+                        <ShoppingBag size={20} strokeWidth={1.5} />
+                        <span className="font-medium">Shopping Bag</span>
+                      </div>
+                      {cartCount > 0 && (
+                        <span className="bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
+                          {cartCount}
+                        </span>
+                      )}
+                    </Link>
+                    {user && (
+                      <Link 
+                        to="/account" 
+                        onClick={closeMobileMenu} 
+                        className="flex items-center justify-between py-4 text-[#3D3D29] border-b border-[#3D3D29]/10"
+                      >
+                        <div className="flex items-center gap-3">
+                          <User size={20} strokeWidth={1.5} />
+                          <span className="font-medium">My Account</span>
+                        </div>
+                      </Link>
                     )}
-                  </Link>
-                  <Link to="/cart" onClick={closeMobileMenu} className="flex items-center justify-between py-4 text-[12px] uppercase tracking-[0.3em] font-bold text-black hover:text-primary transition-colors border-b border-border-tan/10">
-                    <span>Cart</span>
-                    {cartCount > 0 && (
-                      <span className="bg-red-400 text-white text-[9px] rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                        {cartCount}
-                      </span>
-                    )}
-                  </Link>
+                  </div>
                 </div>
-
-                <button
-                  onClick={() => {
-                    closeMobileMenu();
-                    if (user) {
-                      logout();
-                    } else {
-                      navigate('/account');
-                    }
-                  }}
-                  className="w-full mt-8 py-4 bg-primary text-white text-[12px] uppercase tracking-[0.25em] font-bold rounded-full hover:bg-black transition-colors"
-                >
-                  {user ? 'Logout' : 'Login'}
-                </button>
               </div>
 
-              {/* Mobile account summary */}
-              <div className="p-6 border-t border-border-tan/30 text-sm text-black/70">
+              {/* Footer - Login/Logout Button */}
+              <div className="px-6 py-6 bg-white border-t border-[#3D3D29]/10">
                 {user ? (
-                  <div className="space-y-2">
-                    <p className="uppercase tracking-[0.25em] font-semibold text-black/80">Signed in as</p>
-                    <p className="truncate">{user.displayName || user.email || 'Registered user'}</p>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#3D3D29]/20">
+                        <img 
+                          src={user.photoURL || ''} 
+                          alt={user.displayName || 'User'} 
+                          referrerPolicy="no-referrer" 
+                          className="w-full h-full object-cover" 
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-[#3D3D29] truncate">{user.displayName || 'Welcome back!'}</p>
+                        <p className="text-xs text-[#3D3D29]/50 truncate">{user.email}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        logout();
+                        closeMobileMenu();
+                      }}
+                      className="w-full py-4 bg-[#3D3D29] text-white text-sm uppercase tracking-[0.2em] font-bold rounded-full hover:bg-black transition-colors"
+                    >
+                      Logout
+                    </button>
                   </div>
                 ) : (
-                  <p className="uppercase tracking-[0.25em] font-semibold text-black/80">Welcome</p>
+                  <button
+                    onClick={() => {
+                      closeMobileMenu();
+                      navigate('/account');
+                    }}
+                    className="w-full py-4 bg-[#3D3D29] text-white text-sm uppercase tracking-[0.2em] font-bold rounded-full hover:bg-black transition-colors flex items-center justify-center gap-2"
+                  >
+                    <User size={18} />
+                    Login / Sign Up
+                  </button>
                 )}
               </div>
             </motion.div>

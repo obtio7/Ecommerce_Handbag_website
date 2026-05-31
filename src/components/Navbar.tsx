@@ -309,7 +309,7 @@ const Navbar: React.FC = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-secondary z-[101] flex flex-col shadow-2xl"
+              className="fixed inset-0 bg-secondary z-[101] flex flex-col shadow-2xl"
             >
               {/* Close Button */}
               <div className="flex items-center justify-between p-6 border-b border-border-tan/30">

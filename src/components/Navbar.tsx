@@ -309,7 +309,7 @@ const Navbar: React.FC = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed inset-0 bg-white z-[101] flex flex-col shadow-2xl overflow-y-auto"
+              className="fixed inset-0 bg-secondary z-[101] flex flex-col shadow-2xl overflow-y-auto"
             >
               {/* Close Button */}
               <div className="flex items-center justify-between p-6 border-b border-border-tan/30">
@@ -336,6 +336,24 @@ const Navbar: React.FC = () => {
                   </Link>
                 )}
 
+                <div className="pt-6">
+                  <p className="text-[10px] uppercase tracking-[0.3em] font-semibold text-black/50 mb-3">Categories</p>
+                  <div className="space-y-2 border-t border-border-tan/10 pt-4">
+                    {['Tote', 'Clutch', 'Sling', 'Handbag', 'Crossbody', 'Mini'].map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => {
+                          closeMobileMenu();
+                          navigate(`/collection?category=${encodeURIComponent(cat)}`);
+                        }}
+                        className="w-full text-left py-4 text-[12px] uppercase tracking-[0.25em] font-bold text-black hover:text-primary transition-colors border-b border-border-tan/10"
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="pt-6 space-y-2">
                   <Link to="/wishlist" onClick={closeMobileMenu} className="flex items-center justify-between py-4 text-[12px] uppercase tracking-[0.3em] font-bold text-black hover:text-primary transition-colors border-b border-border-tan/10">
                     <span>Wishlist</span>
@@ -354,34 +372,31 @@ const Navbar: React.FC = () => {
                     )}
                   </Link>
                 </div>
+
+                <button
+                  onClick={() => {
+                    closeMobileMenu();
+                    if (user) {
+                      logout();
+                    } else {
+                      navigate('/account');
+                    }
+                  }}
+                  className="w-full mt-8 py-4 bg-primary text-white text-[12px] uppercase tracking-[0.25em] font-bold rounded-full hover:bg-black transition-colors"
+                >
+                  {user ? 'Logout' : 'Login'}
+                </button>
               </div>
 
-              {/* Auth Section */}
-              <div className="p-6 border-t border-border-tan/30">
+              {/* Mobile account summary */}
+              <div className="p-6 border-t border-border-tan/30 text-sm text-black/70">
                 {user ? (
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full overflow-hidden border border-border-tan">
-                        <img src={user.photoURL || ''} alt={user.displayName || 'User'} referrerPolicy="no-referrer" className="w-full h-full object-cover" />
-                      </div>
-                      <span className="text-[10px] uppercase tracking-widest font-bold truncate max-w-[120px]">
-                        {user.displayName || 'User'}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => { logout(); closeMobileMenu(); }}
-                      className="text-[10px] uppercase tracking-widest font-bold text-red-600 hover:text-red-800"
-                    >
-                      Logout
-                    </button>
+                  <div className="space-y-2">
+                    <p className="uppercase tracking-[0.25em] font-semibold text-black/80">Signed in as</p>
+                    <p className="truncate">{user.displayName || user.email || 'Registered user'}</p>
                   </div>
                 ) : (
-                  <button
-                    onClick={() => { navigate('/account'); closeMobileMenu(); }}
-                    className="w-full py-4 bg-primary text-white text-[11px] uppercase tracking-[0.3em] font-bold rounded-full hover:bg-black transition-all"
-                  >
-                    Sign In
-                  </button>
+                  <p className="uppercase tracking-[0.25em] font-semibold text-black/80">Welcome</p>
                 )}
               </div>
             </motion.div>

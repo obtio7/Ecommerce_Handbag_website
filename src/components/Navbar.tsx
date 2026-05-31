@@ -294,7 +294,7 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu Overlay - Simple CSS version */}
       {mobileMenuOpen && (
         <>
-          {/* Solid background layer */}
+          {/* Solid background layer - covers entire screen */}
           <div 
             style={{ 
               position: 'fixed',
